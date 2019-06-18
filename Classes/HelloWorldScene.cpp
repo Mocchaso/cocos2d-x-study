@@ -57,19 +57,29 @@ bool HelloWorld::init()
 
     this->scheduleUpdate();
 
-    _player = Sprite::create("slime.png");
-    _player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
     _bg = Sprite::create("bg_test.jpg");
     _bg->setPosition(Vec2(origin.x, origin.y));
-    this->addChild(_player);
-    this->addChild(_bg);
+    _player = Sprite::create("slime.png");
+    _player->setPosition(Vec2(origin.x, origin.y + visibleSize.height / 2));
+    this->addChild(_bg, 1);
+    this->addChild(_player, 2);
+
+    // 正投影によるカメラの作成
+    auto s = Director::getInstance()->getWinSize();
+    _camera = Camera::createOrthographic(s.width, s.height, 1, 1000);
+    addChild(_camera);
 
     return true;
 }
 
 void HelloWorld::update(float delta) {
     _player->setPosition( Point(_player->getPositionX() + 100 * delta, _player->getPositionY()) );
-    log("player position: (%d, %d)", _player->getPositionX(), _player->getPositionY());
+
+    float cameraOffset = 50.0f; // カメラの視点と映す場所を中央からずらす
+    auto camera = Camera::getDefaultCamera();
+//    _camera->setPosition3D(Vec3(_player->getPositionX() + cameraOffset, _player->getPositionY(), 250));
+    _camera->setPosition3D(Vec3(_player->getPositionX(), _player->getPositionY(), 250));
+    _camera->lookAt(Vec3(_player->getPositionX(), _player->getPositionY(), 0));
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
