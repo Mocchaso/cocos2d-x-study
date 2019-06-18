@@ -29,7 +29,10 @@ USING_NS_CC;
 
 Scene* HelloWorld::createScene()
 {
-    return HelloWorld::create();
+    auto scene = Scene::create();
+    auto layer = HelloWorld::create();
+    scene->addChild(layer);
+    return scene;
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -44,13 +47,15 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Scene::init() )
+    if ( !Layer::init() )
     {
         return false;
     }
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    this->scheduleUpdate();
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -118,6 +123,9 @@ bool HelloWorld::init()
     return true;
 }
 
+void HelloWorld::update(float delta) {
+
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
