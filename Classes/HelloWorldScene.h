@@ -29,6 +29,9 @@
 
 class HelloWorld : public cocos2d::Layer
 {
+private:
+    cocos2d::Sprite* _player;
+    cocos2d::Sprite* _bg;
 public:
     static cocos2d::Scene* createScene();
 
